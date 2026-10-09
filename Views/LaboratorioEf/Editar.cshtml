@@ -1,0 +1,51 @@
+@model HeroesWeb.Models.Heroes
+
+@{
+    ViewData["Title"] = "Laboratorio EF Core";
+    var resultado = TempData["Resultado"] as string
+        ?? ViewData["Resultado"] as string;
+}
+
+<h1>Laboratorio EF Core</h1>
+<p>Héroe consultado: @Model.Id</p>
+
+@if (resultado is not null)
+{
+    <div class="alert alert-info" role="alert">@resultado</div>
+}
+
+<form asp-controller="LaboratorioEf" asp-action="Editar" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre"
+               class="form-control"
+               maxlength="100"
+               required />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input type="checkbox"
+               id="guardar"
+               name="guardar"
+               value="true"
+               class="form-check-input" />
+        <label for="guardar" class="form-check-label">
+            Guardar el cambio en la base de datos
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ejecutar prueba</button>
+    <a asp-action="Editar"
+       asp-route-id="@Model.Id"
+       class="btn btn-secondary">
+        Consultar nuevamente
+    </a>
+</form>
+
+@section Scripts {
+    <partial name="/Pages/Shared/_ValidationScriptsPartial.cshtml" />
+}

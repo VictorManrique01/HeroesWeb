@@ -15,6 +15,10 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeFolder("/SuperPoderes");
 });
 
+// El proyecto continúa usando Razor Pages y, además, habilita controladores con
+// vistas para el laboratorio de seguimiento de cambios de EF Core.
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<HeroesContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -52,5 +56,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
+app.MapControllerRoute(
+    name: "mvc",
+    pattern: "{controller}/{action}/{id?}");
 app.MapRazorPages().WithStaticAssets();
 app.Run();
